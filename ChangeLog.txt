@@ -1,0 +1,5 @@
+# pydnspod changelog
+
+## 2012-12-05 0.01
+
+* First release version.
