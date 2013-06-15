@@ -3,20 +3,20 @@
 
 import urllib
 import urllib2
-import json
 import re
-from config import USER_AGENT, PARAMS, DEFAULT_FORMAT, DEFAULT_LANG, LOGIN_REMEMBER
+from config import USER_AGENT, PARAMS
+from config import DEFAULT_FORMAT, DEFAULT_LANG, LOGIN_REMEMBER
 
 
 class Api(object):
 
-    def __init__(self, login_email, login_password, cookie=''):
+    def __init__(self, email, password, cookie=''):
         self.base_url = "https://dnsapi.cn/"
-        self.login_email = login_email
-        self.login_password = login_password
         self.path = "Info.Version"
         self.params = {}
-        self.cookie = cookie
+        self._cookie = cookie
+        self._email = email
+        self._password = password
 
     def version(self, **kw):
         self.path = "Info.Version"
@@ -30,23 +30,25 @@ class Api(object):
             return False
         for par in reqir_params:
             missing = True
-            if type(par) == type(()):
+            if isinstance(par, tuple):
                 for item in par:
                     if item in kw:
                         missing = False
                         break
                 if missing:
                     mis_par = " or ".join(par)
-                    return "%s required. '%s' requires %s" % (mis_par, path, reqir_params)
-            elif type(par) == type(""):
+                    return "%s required. '%s' requires %s" % \
+                           (mis_par, path, reqir_params)
+            elif isinstance(par, str):
                 if par not in kw:
-                    return "%s required. '%s' requires %s" % (par, path, reqir_params)
+                    return "%s required. '%s' requires %s" % \
+                           (par, path, reqir_params)
         return False
 
     def _request(self, **kw):
-        self.params.update( {\
-            "login_email": self.login_email,
-            "login_password": self.login_password,
+        self.params.update({
+            "login_email": self._email,
+            "login_password": self._password,
             "format": DEFAULT_FORMAT,
             "lang": DEFAULT_LANG,
             "login_remember": LOGIN_REMEMBER
@@ -55,7 +57,7 @@ class Api(object):
         param_missing = self._is_param_missing(**kw)
         if not param_missing:
             params = urllib.urlencode(self.params)
-            headers = { "User-Agent": USER_AGENT, "Cookie": self.cookie }
+            headers = {"User-Agent": USER_AGENT, "Cookie": self._cookie}
             url = "".join((self.base_url, self.path))
             req = urllib2.Request(url, params, headers)
             try:
@@ -64,7 +66,8 @@ class Api(object):
                 resp_headers = resp.info()
             except Exception, e:
                 return e
-            return resp_headers if "login_code" in kw and self.path == "Info.Version" else response
+            return resp_headers if "login_code" in kw and \
+                self.path == "Info.Version" else response
         else:
             return param_missing
 
@@ -74,18 +77,18 @@ class Api(object):
         cookie_match = re.compile(r'(?P<cookie>t\d+=[^;]*);')
         match_result = cookie_match.findall(resp_headers['set-cookie'])
         if match_result:
-            self.cookie = match_result[0]
-        return self.cookie
+            self._cookie = match_result[0]
+        return self._cookie
 
     def set_cookie(self, cookie):
-        self.cookie = cookie
-        return self.cookie
+        self._cookie = cookie
+        return self._cookie
 
 
 class User(Api):
 
-    def __init__(self, login_email, login_password):
-        super(User, self).__init__(login_email, login_password)
+    def __init__(self, email, password, cookie=''):
+        super(User, self).__init__(email, password, cookie=cookie)
 
     def detail(self, **kw):
         self.path = "User.Detail"
@@ -114,8 +117,8 @@ class User(Api):
 
 class Domain(Api):
 
-    def __init__(self, login_email, login_password):
-        super(Domain, self).__init__(login_email, login_password)
+    def __init__(self, email, password, cookie=''):
+        super(Domain, self).__init__(email, password, cookie=cookie)
 
     def create(self, **kw):
         self.path = "Domain.Create"
@@ -244,8 +247,8 @@ class Domain(Api):
 
 class Record(Api):
 
-    def __init__(self, login_email, login_password):
-        super(Record, self).__init__(login_email, login_password)
+    def __init__(self, email, password, cookie=''):
+        super(Record, self).__init__(email, password, cookie=cookie)
 
     def create(self, **kw):
         self.path = "Record.Create"
@@ -282,8 +285,8 @@ class Record(Api):
 
 class Monitor(Api):
 
-    def __init__(self, login_email, login_password):
-        super(Monitor, self).__init__(login_email, login_password)
+    def __init__(self, email, password, cookie=''):
+        super(Monitor, self).__init__(email, password, cookie=cookie)
 
     def list_subdomain(self, **kw):
         self.path = "Monitor.Listsubdomain"
