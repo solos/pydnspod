@@ -48,7 +48,7 @@ PARAMS = {
     "Record.List": {"required": ["domain_id"], "optional": ["length", "offset", "sub_domain"]},
     "Record.Modify": {"required": ["domain_id", "record_id", "record_type", "record_line", "value"], "optional": ["sub_domain", "mx", "ttl"]},
     "Record.Remove": {"required": ["domain_id", "record_id"], "optional": []},
-    "Record.Ddns": {"required": ["domain_id", "record_id", "record_line"], "optional": []},
+    "Record.Ddns": {"required": ["domain_id", "record_id", "record_line", "sub_domain"], "optional": ["value"]},
     "Record.Remark": {"required": ["domain_id", "record_id", "remark"], "optional": []},
     "Record.Info": {"required": ["domain_id", "record_id"], "optional": []},
     "Record.Status": {"required": ["domain_id", "record_id"], "optional": ["status"]},
