@@ -67,12 +67,12 @@ class Api(object):
             except Exception, e:
                 return e
             return resp_headers if "login_code" in kw and \
-                self.path == "Info.Version" else response
+                self.path == "User.Detail" else response
         else:
             return param_missing
 
     def get_cookie(self, login_code):
-        self.path = "Info.Version"
+        self.path = "User.Detail"
         resp_headers = self._request(login_code=login_code)
         cookie_match = re.compile(r'(?P<cookie>t\d+=[^;]*);')
         match_result = cookie_match.findall(resp_headers['set-cookie'])
