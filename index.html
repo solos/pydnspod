@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>DNSPod用户API文档 &mdash; DNSPod API Doc 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DNSPod API Doc 1.0.0 documentation" href="#" />
+    <link rel="next" title="API说明" href="info.html" /> 
+  </head>
+  <body>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="dnspodapi">
+<h1>DNSPod用户API文档<a class="headerlink" href="#dnspodapi" title="Permalink to this headline">¶</a></h1>
+<p class="centered">
+<strong>DNSPod Documentation 1.0 released January 03, 2014</strong></p><div class="section" id="id1">
+<h2>最近更新<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>2013-05-14</dt>
+<dd><ul class="first last simple">
+<li>Record.Ddns 增加可选的value参数，允许用户提交自己的IP地址</li>
+<li>增加新套餐等级相关的说明</li>
+</ul>
+</dd>
+<dt>2012-07-27</dt>
+<dd><ul class="first last simple">
+<li>增加D令牌验证相关的说明</li>
+</ul>
+</dd>
+<dt>2012-05-07</dt>
+<dd><ul class="first last simple">
+<li>获取记录列表接口增加按子域名(sub_domain)获取记录</li>
+<li>增加Domain.Info接口</li>
+<li>增加Record.Info接口</li>
+</ul>
+</dd>
+<dt>2012-03-22</dt>
+<dd><ul class="first last simple">
+<li>增加设置域名搜索引擎推送接口</li>
+<li>增加设置域名启用国内URL转发接口</li>
+</ul>
+</dd>
+<dt>2012-03-14</dt>
+<dd><ul class="first last simple">
+<li>User.Detail接口增加了nick 返回，意为用户称呼</li>
+<li>User.Modify接口增加了 nick 参数，意为用户称呼</li>
+</ul>
+</dd>
+<dt>2012-03-09</dt>
+<dd><ul class="first last simple">
+<li>添加和修改宕机监控接口增加了 less_notice 参数</li>
+<li>获取警告信息接口增加了 switch_log 返回</li>
+</ul>
+</dd>
+<dt>2012-02-24</dt>
+<dd><ul class="first last simple">
+<li>增加了宕机监控相关的API</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="id2">
+<h2>目录<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="info.html">API说明</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="info.html#id1">API开发规范</a></li>
+<li class="toctree-l2"><a class="reference internal" href="info.html#id2">公共参数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="info.html#id3">共通返回</a></li>
+<li class="toctree-l2"><a class="reference internal" href="info.html#d">D令牌验证相关</a></li>
+<li class="toctree-l2"><a class="reference internal" href="info.html#id4">获取API版本号</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="accounts.html">帐户相关</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="accounts.html#id2">获取帐户信息</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accounts.html#id3">修改资料</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accounts.html#id4">修改密码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accounts.html#id5">修改邮箱</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accounts.html#id6">获取手机验证码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accounts.html#id7">获取用户日志</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="domains.html">域名相关</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id2">添加新域名</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id3">获取域名列表</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id4">删除域名</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id5">设置域名状态</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id6">获取域名信息</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id7">获取域名日志</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id8">设置搜索引擎推送</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id9">添加域名共享</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id10">域名共享列表</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id11">修改域名共享</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id12">删除域名共享</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id13">域名过户</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id14">锁定域名</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id15">锁定状态</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id16">锁定解锁</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id17">域名绑定列表</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id18">添加域名绑定</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id19">删除域名绑定</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id20">获取域名分组</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id21">添加域名分组</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id22">修改域名分组</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id23">删除域名分组</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id24">设置域名分组</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id25">设置域名星标</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id26">设置域名备注</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id27">获取域名权限</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id28">域名取回获取邮箱列表</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id29">域名取回发送验证码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id30">验证域名取回的验证码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id31">获取等级允许的记录类型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="domains.html#id32">获取等级允许的线路线路</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="records.html">记录相关</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="records.html#id2">添加记录</a></li>
+<li class="toctree-l2"><a class="reference internal" href="records.html#id3">记录列表</a></li>
+<li class="toctree-l2"><a class="reference internal" href="records.html#id4">修改记录</a></li>
+<li class="toctree-l2"><a class="reference internal" href="records.html#id5">删除记录</a></li>
+<li class="toctree-l2"><a class="reference internal" href="records.html#dns">更新动态DNS记录</a></li>
+<li class="toctree-l2"><a class="reference internal" href="records.html#id6">设置记录备注</a></li>
+<li class="toctree-l2"><a class="reference internal" href="records.html#id7">获取记录信息</a></li>
+<li class="toctree-l2"><a class="reference internal" href="records.html#id8">设置记录状态</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="d-monitor.html">D监控相关</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="d-monitor.html#a">列出包含A记录的子域名</a></li>
+<li class="toctree-l2"><a class="reference internal" href="d-monitor.html#id1">列出子域名的A记录</a></li>
+<li class="toctree-l2"><a class="reference internal" href="d-monitor.html#id2">监控列表</a></li>
+<li class="toctree-l2"><a class="reference internal" href="d-monitor.html#id3">监控添加</a></li>
+<li class="toctree-l2"><a class="reference internal" href="d-monitor.html#id4">监控修改</a></li>
+<li class="toctree-l2"><a class="reference internal" href="d-monitor.html#id5">监控删除</a></li>
+<li class="toctree-l2"><a class="reference internal" href="d-monitor.html#id6">获取监控信息</a></li>
+<li class="toctree-l2"><a class="reference internal" href="d-monitor.html#id7">设置监控状态</a></li>
+<li class="toctree-l2"><a class="reference internal" href="d-monitor.html#id8">获取监控历史</a></li>
+<li class="toctree-l2"><a class="reference internal" href="d-monitor.html#id9">获取监控概况</a></li>
+<li class="toctree-l2"><a class="reference internal" href="d-monitor.html#id10">获取监控警告</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="#">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">DNSPod用户API文档</a><ul>
+<li><a class="reference internal" href="#id1">最近更新</a></li>
+<li><a class="reference internal" href="#id2">目录</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="info.html"
+                        title="next chapter">API说明</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+        &copy; Copyright DNSPod Inc.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
